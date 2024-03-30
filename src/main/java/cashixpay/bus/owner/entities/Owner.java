@@ -21,7 +21,7 @@ public class Owner {
     @GeneratedValue
     private UUID id;
 
-    private String name;
+    private String reference;
 
     private String address;
 

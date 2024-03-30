@@ -1,4 +1,4 @@
-package cashixpay.bus.busdetails.entities;
+package cashixpay.bus.information.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,11 +21,15 @@ public class BusInformation {
     @GeneratedValue
     private UUID id;
 
-    private String busOwnerId;
+    private String busOwnerReference;
 
     private String name;
 
+    private String reference;
+
     private int numberOfSeats;
+
+
 
     private String plateNumber;
 }

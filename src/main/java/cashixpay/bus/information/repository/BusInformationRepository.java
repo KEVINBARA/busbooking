@@ -1,6 +1,6 @@
-package cashixpay.bus.busdetails.repository;
+package cashixpay.bus.information.repository;
 
-import cashixpay.bus.busdetails.entities.BusInformation;
+import cashixpay.bus.information.entities.BusInformation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

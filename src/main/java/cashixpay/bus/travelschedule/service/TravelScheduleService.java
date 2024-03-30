@@ -1,7 +1,7 @@
 package cashixpay.bus.travelschedule.service;
 
-import cashixpay.bus.busdetails.entities.BusInformation;
-import cashixpay.bus.busdetails.service.BusInformationService;
+import cashixpay.bus.information.entities.BusInformation;
+import cashixpay.bus.information.service.BusInformationService;
 import cashixpay.bus.seat.entities.Seat;
 import cashixpay.bus.seat.repository.SeatRepository;
 import cashixpay.bus.seatinventory.entities.SeatInventory;

@@ -10,6 +10,7 @@ import lombok.*;
 public class SeatDTO {
 
     private String busId;
+    private String busReference;
     private String busName;
     private int seatNumber;
 }

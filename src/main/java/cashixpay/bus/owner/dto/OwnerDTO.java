@@ -10,7 +10,7 @@ import lombok.*;
 @Setter
 public class OwnerDTO {
 
-    private String name;
+    private String reference;
 
     private String address;
 
