@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public interface TravelRouteSegmentRepository extends JpaRepository<TravelRouteSegment, UUID> {
 
-    List<TravelRouteSegment> findTravelRouteSegmentByTravelRouteId(String routeId);
+    List<TravelRouteSegment> findTravelRouteSegmentByRouteReference(String routeReference);
+
+
 
 }

@@ -20,6 +20,7 @@ public class SeatService {
 
         Seat seat = Seat.builder()
                 .busId(seatDTO.getBusId())
+                .busReference(seatDTO.getBusReference())
                 .busName(seatDTO.getBusName())
                 .seatNumber(seatDTO.getSeatNumber()).build();
 
@@ -35,6 +36,7 @@ public class SeatService {
         for(SeatDTO seatDTO : seatDTOList){
             Seat seat = Seat.builder()
                     .busId(seatDTO.getBusId())
+                    .busReference(seatDTO.getBusReference())
                     .busName(seatDTO.getBusName())
                     .seatNumber(seatDTO.getSeatNumber()).build();
 

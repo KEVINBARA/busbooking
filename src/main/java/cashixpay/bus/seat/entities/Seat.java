@@ -22,6 +22,7 @@ public class Seat {
     @GeneratedValue
     private UUID id;
     private String busId;
+    private String busReference;
     private String busName;
     private int seatNumber;
 

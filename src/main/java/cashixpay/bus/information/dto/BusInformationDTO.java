@@ -1,4 +1,4 @@
-package cashixpay.bus.busdetails.dto;
+package cashixpay.bus.information.dto;
 
 
 import lombok.*;
@@ -11,7 +11,8 @@ import lombok.*;
 public class BusInformationDTO {
 
 
-    private String busOwnerId;
+
+    private String busOwnerReference;
 
     private String name;
 

@@ -1,10 +1,10 @@
-package cashixpay.bus.busdetails.service;
+package cashixpay.bus.information.service;
 
 
-import cashixpay.bus.busdetails.dto.BusInformationDTO;
-import cashixpay.bus.busdetails.entities.BusInformation;
-import cashixpay.bus.busdetails.model.BusDetails;
-import cashixpay.bus.busdetails.repository.BusInformationRepository;
+import cashixpay.bus.information.dto.BusInformationDTO;
+import cashixpay.bus.information.entities.BusInformation;
+import cashixpay.bus.information.model.BusDetails;
+import cashixpay.bus.information.repository.BusInformationRepository;
 import cashixpay.bus.seat.dto.SeatDTO;
 import cashixpay.bus.seat.entities.Seat;
 import cashixpay.bus.seat.service.SeatService;
@@ -28,16 +28,21 @@ public class BusInformationService {
     @Transactional
     public BusDetails addBus(BusInformationDTO busInformationDTO){
 
+        String busReference = getBusReference(busInformationDTO.getBusOwnerReference(),busInformationDTO.getPlateNumber(),busInformationDTO.getName());
+
         BusInformation busInformation = BusInformation.builder()
-                .busOwnerId(busInformationDTO.getBusOwnerId())
+                .busOwnerReference(busInformationDTO.getBusOwnerReference())
                 .name(busInformationDTO.getName())
+                .reference(busReference)
                 .numberOfSeats(busInformationDTO.getNumberOfSeats())
                 .plateNumber(busInformationDTO.getPlateNumber()).build();
+
+
 
         busInformationRepository.save(busInformation);
 
         int numberOfSeats = busInformationDTO.getNumberOfSeats();
-        List<SeatDTO> seatDTOList = getSeatList(numberOfSeats,busInformation.getId().toString(),busInformation.getName());
+        List<SeatDTO> seatDTOList = getSeatList(numberOfSeats,busInformation.getId().toString(),busReference,busInformation.getName());
 
       List<Seat> seatList =   seatService.createSeats(seatDTOList);
 
@@ -53,12 +58,17 @@ public class BusInformationService {
     }
 
 
+    private String getBusReference(String busOwnerReference,String plateNumber,String busName){
+
+        return busOwnerReference+"-"+busName+"-"+plateNumber;
+    }
+
     public BusInformation getBusInformationByPlateNumber(String plateNumber){
 
         return busInformationRepository.findBusByPlateNumber(plateNumber);
     }
 
-    private List<SeatDTO> getSeatList(int numberOfSeats,String busId,String busName){
+    private List<SeatDTO> getSeatList(int numberOfSeats,String busId,String busReference,String busName){
 
         List<SeatDTO> seatDTOList = new ArrayList<>();
 
@@ -67,6 +77,7 @@ public class BusInformationService {
             SeatDTO seatDTO = SeatDTO.builder()
                     .seatNumber(i)
                     .busId(busId)
+                    .busReference(busReference)
                     .busName(busName).build();
 
             seatDTOList.add(seatDTO);

@@ -19,7 +19,7 @@ public class OwnerService {
     public Owner createOwner(OwnerDTO ownerDTO){
 
         Owner owner = Owner.builder()
-                .name(ownerDTO.getName())
+                .reference(ownerDTO.getReference())
                 .address(ownerDTO.getAddress())
                 .phoneNumber(ownerDTO.getPhoneNumber()).build();
 

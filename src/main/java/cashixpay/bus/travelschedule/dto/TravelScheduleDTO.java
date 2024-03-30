@@ -12,7 +12,7 @@ public class TravelScheduleDTO {
 
 
     private String busPlateNumber;
-    private String routeId;
+    private String routeReference;
     private String routeName;
     private LocalDateTime startDateTime;
     private LocalDateTime arrivalDateTime;

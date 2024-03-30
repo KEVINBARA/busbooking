@@ -23,9 +23,9 @@ public class TravelSchedule {
     @GeneratedValue
     private UUID id;
 
-    private String busId;
+    private String busReference;
     private String busName;
-    private String routeId;
+    private String routeReference;
     private String routeName;
     private Double price;
     private LocalDateTime startDateTime;

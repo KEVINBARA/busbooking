@@ -1,10 +1,10 @@
-package cashixpay.bus.busdetails.controller;
+package cashixpay.bus.information.controller;
 
 
-import cashixpay.bus.busdetails.dto.BusInformationDTO;
-import cashixpay.bus.busdetails.entities.BusInformation;
-import cashixpay.bus.busdetails.model.BusDetails;
-import cashixpay.bus.busdetails.service.BusInformationService;
+import cashixpay.bus.information.dto.BusInformationDTO;
+import cashixpay.bus.information.entities.BusInformation;
+import cashixpay.bus.information.model.BusDetails;
+import cashixpay.bus.information.service.BusInformationService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

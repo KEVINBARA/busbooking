@@ -1,7 +1,7 @@
 package cashixpay.bus.travelschedule.service;
 
-import cashixpay.bus.busdetails.entities.BusInformation;
-import cashixpay.bus.busdetails.service.BusInformationService;
+import cashixpay.bus.information.entities.BusInformation;
+import cashixpay.bus.information.service.BusInformationService;
 import cashixpay.bus.seat.entities.Seat;
 import cashixpay.bus.seat.repository.SeatRepository;
 import cashixpay.bus.seatinventory.entities.SeatInventory;
@@ -50,23 +50,24 @@ public class TravelScheduleService {
                 .getBusInformationByPlateNumber(travelScheduleDTO.getBusPlateNumber());
 
         List<TravelRouteSegment> travelRouteSegmentList = travelRouteSegmentService
-                .getRouteSegments(travelScheduleDTO.getRouteId());
+                .getRouteSegments(travelScheduleDTO.getRouteReference());
 
         //temp create three days for test
 
-        String routeId = travelScheduleDTO.getRouteId();
+        String routeReference = travelScheduleDTO.getRouteReference();
         String routeName = travelScheduleDTO.getRouteName();
         for(int i = 0; i <=3 ;i++){
 
 
             LocalDateTime startDateTime = travelScheduleDTO.getStartDateTime().plusDays(i);
             TravelSchedule travelSchedule = TravelSchedule.builder()
-                    .busId(busInfo.getId().toString())
+                    .busReference(busInfo.getReference())
                     .busName(busInfo.getName())
-                    .routeId(routeId)
+                    .routeReference(routeReference)
                     .routeName(routeName)
                     .startDateTime(startDateTime)
-                    .arrivalDateTime(travelScheduleDTO.getArrivalDateTime()).build();
+                    .price(20000.0)
+                    .arrivalDateTime(travelScheduleDTO.getArrivalDateTime().plusDays(i)).build();
 
             travelScheduleList.add(travelSchedule);
 
@@ -74,52 +75,13 @@ public class TravelScheduleService {
 
             List<Seat> seatList = seatRepository.findSeatsByBusId(busInfo.getId().toString());
 
-            createSeatInventory(busInfo,routeId,routeName,travelRouteSegmentList,seatList,
-                    travelSchedule.getId().toString(),startDateTime);
+            seatInventoryService.createSeatInventory(busInfo,travelSchedule,travelRouteSegmentList,seatList);
 
         }
 
         return travelScheduleList;
     }
 
-    public void createSeatInventory(BusInformation busInfo, String routeId, String routeName,
-                                    List<TravelRouteSegment>travelRouteSegmentList, List<Seat> seatList,String travelScheduleId,LocalDateTime travelDateTime){
-
-        for(TravelRouteSegment travelRouteSegment : travelRouteSegmentList){
-
-            String segmentId = travelRouteSegment.getId().toString();
-            int segmentSequence = travelRouteSegment.getSegmentSequence();
-            String startStop = travelRouteSegment.getStartStop();
-            String endStop = travelRouteSegment.getEndStop();
-
-
-            for(Seat seat : seatList){
-
-                String seatId = seat.getId().toString();
-                int seatNumber = seat.getSeatNumber();
-
-                SeatInventory seatInventory = SeatInventory.builder()
-                        .busId(busInfo.getId().toString())
-                        .busName(busInfo.getName())
-                        .routeId(routeId)
-                        .routeName(routeName)
-                        .segmentId(segmentId)
-                        .segmentSequence(segmentSequence)
-                        .startStop(startStop)
-                        .endStop(endStop)
-                        .seatId(seatId)
-                        .seatNumber(seatNumber)
-                        .travelScheduleId(travelScheduleId)
-                        .travelDateTime(travelDateTime)
-                        .seatStatus(SeatStatus.AVAILABLE).build();
-
-                seatInventoryService.createSeatInventory(seatInventory);
-
-
-
-
-            }
-        }
 
     }
-}
+

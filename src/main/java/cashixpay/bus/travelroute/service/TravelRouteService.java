@@ -17,16 +17,23 @@ public class TravelRouteService {
 
     public TravelRoute addTravelRoute(TravelRouteDTO travelRouteDTO){
 
+
+        String reference = getRouteReference(travelRouteDTO.getBusOwnerReference(),travelRouteDTO.getName());
         TravelRoute travelRoute = TravelRoute.builder()
-                .busOwnerId(travelRouteDTO.getBusOwnerId())
-                .busId(travelRouteDTO.getBusId())
+                .busOwnerReference(travelRouteDTO.getBusOwnerReference())
                 .name(travelRouteDTO.getName())
+                .reference(reference)
                 .startStop(travelRouteDTO.getStartStop())
                 .endStop(travelRouteDTO.getEndStop()).build();
 
         travelRouteRepository.save(travelRoute);
 
         return travelRoute;
+    }
+
+    private String getRouteReference(String busOwnerReference,String routeName){
+
+        return busOwnerReference+"-"+routeName;
     }
 
     public List<TravelRoute> getTravelRoutes(){

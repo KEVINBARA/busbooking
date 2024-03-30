@@ -1,6 +1,6 @@
-package cashixpay.bus.busdetails.model;
+package cashixpay.bus.information.model;
 
-import cashixpay.bus.busdetails.entities.BusInformation;
+import cashixpay.bus.information.entities.BusInformation;
 import cashixpay.bus.seat.entities.Seat;
 import lombok.*;
 
