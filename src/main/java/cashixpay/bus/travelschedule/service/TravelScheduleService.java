@@ -75,53 +75,13 @@ public class TravelScheduleService {
 
             List<Seat> seatList = seatRepository.findSeatsByBusId(busInfo.getId().toString());
 
-            createSeatInventory(busInfo,travelSchedule,travelRouteSegmentList,seatList);
+            seatInventoryService.createSeatInventory(busInfo,travelSchedule,travelRouteSegmentList,seatList);
 
         }
 
         return travelScheduleList;
     }
 
-    public void createSeatInventory(BusInformation busInfo, TravelSchedule ts,
-                                    List<TravelRouteSegment>travelRouteSegmentList, List<Seat> seatList){
-
-        for(TravelRouteSegment travelRouteSegment : travelRouteSegmentList){
-
-            String segmentId = travelRouteSegment.getId().toString();
-            int segmentSequence = travelRouteSegment.getSegmentSequence();
-            String startStop = travelRouteSegment.getStartStop();
-            String endStop = travelRouteSegment.getEndStop();
-
-
-            for(Seat seat : seatList){
-
-                String seatId = seat.getId().toString();
-                int seatNumber = seat.getSeatNumber();
-
-                SeatInventory seatInventory = SeatInventory.builder()
-                        .busOwnerReference(busInfo.getBusOwnerReference())
-                        .busReference(busInfo.getReference())
-                        .busName(busInfo.getName())
-                        .routeReference(ts.getRouteReference())
-                        .routeName(ts.getRouteName())
-                        .segmentId(segmentId)
-                        .segmentSequence(segmentSequence)
-                        .startStop(startStop)
-                        .endStop(endStop)
-                        .seatId(seatId)
-                        .seatNumber(seatNumber)
-                        .travelScheduleId(ts.getId().toString())
-                        .travelDateTime(ts.getStartDateTime())
-                        .arrivalDateTime(ts.getArrivalDateTime())
-                        .seatStatus(SeatStatus.AVAILABLE).build();
-
-                seatInventoryService.createSeatInventory(seatInventory);
-
-
-
-
-            }
-        }
 
     }
-}
+
