@@ -50,23 +50,24 @@ public class TravelScheduleService {
                 .getBusInformationByPlateNumber(travelScheduleDTO.getBusPlateNumber());
 
         List<TravelRouteSegment> travelRouteSegmentList = travelRouteSegmentService
-                .getRouteSegments(travelScheduleDTO.getRouteId());
+                .getRouteSegments(travelScheduleDTO.getRouteReference());
 
         //temp create three days for test
 
-        String routeId = travelScheduleDTO.getRouteId();
+        String routeReference = travelScheduleDTO.getRouteReference();
         String routeName = travelScheduleDTO.getRouteName();
         for(int i = 0; i <=3 ;i++){
 
 
             LocalDateTime startDateTime = travelScheduleDTO.getStartDateTime().plusDays(i);
             TravelSchedule travelSchedule = TravelSchedule.builder()
-                    .busId(busInfo.getId().toString())
+                    .busReference(busInfo.getReference())
                     .busName(busInfo.getName())
-                    .routeId(routeId)
+                    .routeReference(routeReference)
                     .routeName(routeName)
                     .startDateTime(startDateTime)
-                    .arrivalDateTime(travelScheduleDTO.getArrivalDateTime()).build();
+                    .price(20000.0)
+                    .arrivalDateTime(travelScheduleDTO.getArrivalDateTime().plusDays(i)).build();
 
             travelScheduleList.add(travelSchedule);
 
@@ -74,16 +75,15 @@ public class TravelScheduleService {
 
             List<Seat> seatList = seatRepository.findSeatsByBusId(busInfo.getId().toString());
 
-            createSeatInventory(busInfo,routeId,routeName,travelRouteSegmentList,seatList,
-                    travelSchedule.getId().toString(),startDateTime);
+            createSeatInventory(busInfo,travelSchedule,travelRouteSegmentList,seatList);
 
         }
 
         return travelScheduleList;
     }
 
-    public void createSeatInventory(BusInformation busInfo, String routeId, String routeName,
-                                    List<TravelRouteSegment>travelRouteSegmentList, List<Seat> seatList,String travelScheduleId,LocalDateTime travelDateTime){
+    public void createSeatInventory(BusInformation busInfo, TravelSchedule ts,
+                                    List<TravelRouteSegment>travelRouteSegmentList, List<Seat> seatList){
 
         for(TravelRouteSegment travelRouteSegment : travelRouteSegmentList){
 
@@ -99,18 +99,20 @@ public class TravelScheduleService {
                 int seatNumber = seat.getSeatNumber();
 
                 SeatInventory seatInventory = SeatInventory.builder()
-                        .busId(busInfo.getId().toString())
+                        .busOwnerReference(busInfo.getBusOwnerReference())
+                        .busReference(busInfo.getReference())
                         .busName(busInfo.getName())
-                        .routeId(routeId)
-                        .routeName(routeName)
+                        .routeReference(ts.getRouteReference())
+                        .routeName(ts.getRouteName())
                         .segmentId(segmentId)
                         .segmentSequence(segmentSequence)
                         .startStop(startStop)
                         .endStop(endStop)
                         .seatId(seatId)
                         .seatNumber(seatNumber)
-                        .travelScheduleId(travelScheduleId)
-                        .travelDateTime(travelDateTime)
+                        .travelScheduleId(ts.getId().toString())
+                        .travelDateTime(ts.getStartDateTime())
+                        .arrivalDateTime(ts.getArrivalDateTime())
                         .seatStatus(SeatStatus.AVAILABLE).build();
 
                 seatInventoryService.createSeatInventory(seatInventory);

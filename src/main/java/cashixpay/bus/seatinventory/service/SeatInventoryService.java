@@ -3,6 +3,7 @@ package cashixpay.bus.seatinventory.service;
 import cashixpay.bus.seatinventory.entities.SeatInventory;
 import cashixpay.bus.seatinventory.enumeration.SeatStatus;
 import cashixpay.bus.seatinventory.pojo.AvailableSeats;
+import cashixpay.bus.seatinventory.pojo.AvailableTravelSchedule;
 import cashixpay.bus.seatinventory.pojo.SeatBookRequest;
 import cashixpay.bus.seatinventory.repositories.SeatInventoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,15 @@ public class SeatInventoryService {
         return seatInventoryRepo.getAvailableSeats(startStop,endStop,SeatStatus.valueOf(seatStatus),LocalDate.parse(travelDate));
     }
 
+    public List<AvailableTravelSchedule> getAvailableSchedules(String startStop, String endStop, String seatStatus){
+
+        return seatInventoryRepo.getAvailableSchedules(startStop,endStop,SeatStatus.valueOf(seatStatus));
+
+    }
+
     public List<SeatInventory>  bookSeat(SeatBookRequest seatBookRequest){
 
-        List<SeatInventory> seatInventories =  seatInventoryRepo.getSeatInventoriesBySeatNumberAndSeatStatusAndRouteIdAndBusIdAndTravelDateTimeAndSegmentSequenceBetween(
+        List<SeatInventory> seatInventories =  seatInventoryRepo.getSeatInventoriesBySeatNumberAndSeatStatusAndRouteReferenceAndBusReferenceAndTravelDateTimeAndSegmentSequenceBetween(
                 seatBookRequest.getSeatNumber(),
                 SeatStatus.AVAILABLE,
                 seatBookRequest.getRouteId(),
@@ -51,6 +58,8 @@ public class SeatInventoryService {
         return seatInventories;
 
     }
+
+
 
     private void updateSeatStatus(List<SeatInventory> seatInventories){
 

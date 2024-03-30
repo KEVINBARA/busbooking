@@ -21,9 +21,9 @@ public class TravelRoute {
     @GeneratedValue
     private UUID id;
 
-    private String busOwnerId;
-    private String busId;
+    private String busOwnerReference;
     private String name;
+    private String reference;
     private String startStop;
     private String endStop;
 

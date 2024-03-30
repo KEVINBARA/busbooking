@@ -19,7 +19,7 @@ public class TravelRouteSegmentService {
     public TravelRouteSegment addSegment(TravelRouteSegmentDTO segmentDTO){
 
         TravelRouteSegment travelRouteSegment = TravelRouteSegment.builder()
-                .travelRouteId(segmentDTO.getTravelRouteId())
+                .routeReference(segmentDTO.getRouteReference())
                 .segmentSequence(segmentDTO.getSegmentSequence())
                 .startStop(segmentDTO.getStartStop())
                 .endStop(segmentDTO.getEndStop()).build();
@@ -33,8 +33,8 @@ public class TravelRouteSegmentService {
         return travelRouteSegmentRepo.findAll();
     }
 
-    public List<TravelRouteSegment> getRouteSegments(String routeId){
+    public List<TravelRouteSegment> getRouteSegments(String routeReference){
 
-        return travelRouteSegmentRepo.findTravelRouteSegmentByTravelRouteId(routeId);
+        return travelRouteSegmentRepo.findTravelRouteSegmentByRouteReference(routeReference);
     }
 }

@@ -19,9 +19,10 @@ public class SeatInventory {
     @Id
     @GeneratedValue
     private UUID id;
-    private String busId;
+    private String busOwnerReference;
+    private String busReference;
     private String busName;
-    private String routeId;
+    private String routeReference;
     private String routeName;
     private String segmentId;
     private int segmentSequence;
@@ -31,6 +32,7 @@ public class SeatInventory {
     private int seatNumber;
     private String travelScheduleId;
     private LocalDateTime travelDateTime;
+    private LocalDateTime arrivalDateTime;
     @Enumerated(EnumType.STRING)
     private SeatStatus seatStatus;
 

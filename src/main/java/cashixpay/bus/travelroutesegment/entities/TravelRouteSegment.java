@@ -21,7 +21,7 @@ public class TravelRouteSegment {
     @GeneratedValue
     private UUID id;
 
-    private String travelRouteId;
+    private String routeReference;
     private int segmentSequence;
     private String startStop;
     private String endStop;

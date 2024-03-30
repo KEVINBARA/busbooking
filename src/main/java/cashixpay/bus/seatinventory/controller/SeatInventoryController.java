@@ -2,6 +2,7 @@ package cashixpay.bus.seatinventory.controller;
 
 import cashixpay.bus.seatinventory.entities.SeatInventory;
 import cashixpay.bus.seatinventory.pojo.AvailableSeats;
+import cashixpay.bus.seatinventory.pojo.AvailableTravelSchedule;
 import cashixpay.bus.seatinventory.pojo.SeatBookRequest;
 import cashixpay.bus.seatinventory.service.SeatInventoryService;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +27,14 @@ public class SeatInventoryController {
     }
 
     @GetMapping("/search")
-    public List<AvailableSeats> searchSeats(
+    public List<AvailableTravelSchedule> searchSeats(
             @RequestParam(name= "startStop") String startStop,
             @RequestParam(name = "endStop") String endStop,
             @RequestParam(name = "travelDate") String travelDate,
             @RequestParam(name = "seatStatus") String seatStatus
     ){
 
-        return seatInventoryService.searchSeats(startStop,endStop,seatStatus,travelDate);
+        return seatInventoryService.getAvailableSchedules(startStop,endStop,seatStatus);
     }
 
     @PostMapping("/book")
